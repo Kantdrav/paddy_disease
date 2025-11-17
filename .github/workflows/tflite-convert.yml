@@ -1,0 +1,41 @@
+name: Convert ONNX to TFLite
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'ai_model/model.onnx'
+      - 'ai_model/convert_to_tflite.py'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install conversion dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install onnx2tf tensorflow==2.20.0
+
+      - name: Convert ONNX -> TFLite
+        run: |
+          python ai_model/convert_to_tflite.py \
+            --onnx ai_model/model.onnx \
+            --saved-model ai_model/export_tf \
+            --tflite ai_model/model.tflite \
+            --optimize float16
+
+      - name: Upload TFLite artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tflite-model
+          path: |
+            ai_model/model.tflite
+            ai_model/model.classes.json

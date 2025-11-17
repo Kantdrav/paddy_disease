@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+*.pid
+
+# TensorFlow conversion artifacts (don't commit these)
+export_tf/
+
+# Model artifacts (optional - keep model files but not temp artifacts)
+# Uncomment if you want to exclude large model files:
+# *.pth
+# *.onnx
+# *.onnx.data
+# *.tflite

@@ -81,8 +81,7 @@ redis==6.2.0
 requests==2.31.0
 rich==13.7.1
 screen-resolution-extra==0.0.0
-selinux @ file:///build/libselinux-IVxPh3/libselinux-3.5/src
-sepolicy @ file:///build/selinux-python-II4c1D/selinux-python-3.5/sepolicy
+
 setools==4.4.4
 setuptools==80.9.0
 six==1.17.0

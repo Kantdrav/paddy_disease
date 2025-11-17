@@ -1,22 +1,30 @@
 fastapi==0.115.0
 uvicorn==0.30.0
+# gunicorn only needed if you use gunicorn as process manager; keep or remove.
 gunicorn==21.2.0
 
 pillow==11.0.0
 numpy==1.26.4
+typing-extensions==4.15.0
 
-torch==2.5.1 --extra-index-url https://download.pytorch.org/whl/cpu
+# Pin torch to the version already installed earlier (2.9.1 CPU build). Use --index-url for compatibility.
+torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+torchvision==0.24.1+cpu --index-url https://download.pytorch.org/whl/cpu
 python-multipart==0.0.9
 
-celery==5.2.2
-redis==6.2.0
-kombu==5.5.4
-amqp==5.3.1
-billiard==3.6.4.0
-vine==5.1.0
+# Removed celery/redis stack (not referenced in code). Re-add if background task queue required.
+# celery==5.2.2
+# redis==6.2.0
+# kombu==5.5.4
+# amqp==5.3.1
+# billiard==3.6.4.0
+# vine==5.1.0
 
 requests==2.31.0
-click==8.2.1
 python-dotenv==0.19.0
 python-dateutil==2.9.0.post0
-pytz==2025.2
+# Prefer zoneinfo (Python 3.9+) over pytz. Omit pytz unless legacy code requires it.
+
+# Optional explicit pins to stabilize FastAPI dependencies:
+starlette==0.40.0
+pydantic==2.9.0

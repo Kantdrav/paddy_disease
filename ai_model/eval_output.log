@@ -1,0 +1,4 @@
+Using device: cuda
+Class counts: {'Bacterial Leaf Blight': 1197, 'Brown Spot': 1546}
+Accuracy (test): 100.00%
+Accuracy (train): 100.00%

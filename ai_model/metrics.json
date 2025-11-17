@@ -1,0 +1,1 @@
+{"torch_available":true,"model_loaded":true,"classes":["Bacterial Leaf Blight","Brown Spot"],"num_classes":2,"total_parameters":11177538,"trainable_parameters":11177538,"dummy_inference_ms":42.344}

@@ -33,4 +33,11 @@ if ! "$VENV_PY" -c 'import torch, torchvision' >/dev/null 2>&1; then
   exit 1
 fi
 
-"$VENV_PY" -m uvicorn app:app --host 127.0.0.1 --port 8000 --reload
+# Allow overriding host/port for platforms like Render
+PORT=${PORT:-8000}
+HOST=${HOST:-0.0.0.0}
+
+# Default to original app; set APP_MODULE=app_tflite:app to run the TFLite API
+APP_MODULE=${APP_MODULE:-app:app}
+
+"$VENV_PY" -m uvicorn "$APP_MODULE" --host "$HOST" --port "$PORT"

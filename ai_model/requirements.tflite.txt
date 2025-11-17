@@ -1,0 +1,10 @@
+fastapi==0.115.0
+uvicorn==0.30.0
+python-multipart==0.0.9
+pillow==11.0.0
+numpy==1.26.4
+# Minimal runtime interpreter for TFLite (tiny; no full TensorFlow)
+tflite-runtime==2.14.0
+# Optional stability pins for FastAPI deps
+starlette==0.40.0
+pydantic==2.9.0

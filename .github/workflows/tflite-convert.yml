@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -39,3 +41,15 @@ jobs:
           path: |
             ai_model/model.tflite
             ai_model/model.classes.json
+
+      - name: Commit TFLite model back to repo
+        run: |
+          if [ -f ai_model/model.tflite ]; then
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git add ai_model/model.tflite
+            git commit -m "ci: add/update TFLite model artifact"
+            git push
+          else
+            echo "No TFLite model found to commit"
+          fi

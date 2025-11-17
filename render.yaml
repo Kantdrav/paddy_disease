@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: paddy-disease-api
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r ai_model/requirements.tflite.txt
+    startCommand: |
+      cd ai_model && uvicorn app_tflite:app --host 0.0.0.0 --port $PORT
+    autoDeploy: true
+    # Optional health check
+    healthCheckPath: /

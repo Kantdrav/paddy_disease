@@ -2,7 +2,7 @@ import io
 import os
 import sys
 import time
-
+from fastapi.concurrency import run_in_threadpool
 # We'll treat fastapi, PIL (Pillow) and torch as optional at module import so
 # running `python3 app.py` with system Python that doesn't have the project's
 # venv packages doesn't immediately raise ModuleNotFoundError. When imported
@@ -174,6 +174,8 @@ def home():
     return {"message": "Paddy Disease Classification API is running"}
 
 
+
+
 @app.post("/predict/")
 async def predict_endpoint(file: UploadFile = File(...)):
     try:
@@ -186,18 +188,21 @@ async def predict_endpoint(file: UploadFile = File(...)):
             pass
 
         image = Image.open(io.BytesIO(contents)).convert("RGB")
-        class_name = predict_image(image)
+
+        # Run heavy inference in background thread pool
+        class_name = await run_in_threadpool(predict_image, image)
+
         return {"prediction": class_name}
+
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
 
-        # Print server-side error so Render logs show it
         print("Prediction error:", e)
         print(tb)
 
-        # Return the error to client
         return {"error": str(e), "traceback": tb}
+
 
 
 @app.get("/metrics")

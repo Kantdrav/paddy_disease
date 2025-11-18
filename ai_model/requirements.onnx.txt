@@ -1,0 +1,15 @@
+# Requirements for ONNX Runtime deployment
+# This is a lightweight alternative to PyTorch for production
+
+fastapi==0.115.0
+uvicorn==0.30.0
+python-multipart==0.0.9
+pillow==11.0.0
+numpy==1.26.4
+
+# ONNX Runtime (CPU-only, much lighter than PyTorch)
+onnxruntime==1.20.1
+
+# Optional stability pins for FastAPI deps
+starlette==0.40.0
+pydantic==2.9.0

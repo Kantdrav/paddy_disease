@@ -119,18 +119,18 @@ def home():
 async def predict_endpoint(file: UploadFile = File(...)):
     try:
         contents = await file.read()
-        # Debug log for Render
-        try:
-            print("Received file:", getattr(file, "filename", None), "size:", len(contents))
-        except Exception:
-            pass
 
-        image = Image.open(io.BytesIO(contents)).convert("RGB")
-        cls = predict(image)
-        return {"prediction": cls}
+        print("DEBUG: Received file:", file.filename, "size:", len(contents))
+
+        image = Image.open(io.BytesIO(contents))
+        image = image.convert("RGB")
+
+        class_name = predict(image)
+        return {"prediction": class_name}
+
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
-        print("Prediction error:", e)
+        print("PREDICT ERROR:", e)
         print(tb)
         return {"error": str(e), "traceback": tb}

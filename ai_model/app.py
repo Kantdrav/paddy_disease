@@ -107,7 +107,7 @@ if TORCH_AVAILABLE:
             model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
             num_features = model.fc.in_features
             model.fc = nn.Linear(num_features, max(1, len(class_names)))
-            model.load_state_dict(checkpoint["model_state"])
+            model.load_state_dict(checkpoint["model_state"], strict=False)
             model.eval()
         else:
             _model_load_error = FileNotFoundError(f"Checkpoint not found at {checkpoint_path}")
@@ -178,30 +178,29 @@ async def predict_endpoint(file: UploadFile = File(...)):
     try:
         contents = await file.read()
 
-        # Debug log
-        try:
-            print("Received file:", getattr(file, "filename", None), "size:", len(contents))
-        except Exception:
-            pass
+        print("DEBUG: Received file:", file.filename, "size:", len(contents))
 
         image = Image.open(io.BytesIO(contents)).convert("RGB")
         class_name = predict_image(image)
+
         return {"prediction": class_name}
+
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
-
-        # Print server-side error so Render logs show it
-        print("Prediction error:", e)
+        print("PREDICT ERROR:", e)
         print(tb)
-
-        # Return the error to client
         return {"error": str(e), "traceback": tb}
 
 
 @app.get("/metrics")
 def metrics():
     return _collect_metrics()
+
+
+@app.get("/test")
+def test():
+    return {"status": "ok"}
 
 
 if __name__ == "__main__":

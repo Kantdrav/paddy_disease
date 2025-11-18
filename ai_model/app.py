@@ -104,7 +104,7 @@ if TORCH_AVAILABLE:
             checkpoint = torch.load(checkpoint_path, map_location=torch.device("cpu"))
             class_names = checkpoint.get("classes", [])
 
-           model = models.resnet18(weights=None)
+          model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
 
             num_features = model.fc.in_features
             model.fc = nn.Linear(num_features, max(1, len(class_names)))

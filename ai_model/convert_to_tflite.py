@@ -21,6 +21,7 @@ Usage:
     --optimize float16
 
 Optimization options: none|default|float16|int8
+# Note: This file edit is also used to trigger the CI workflow that converts ONNX -> TFLite.
 """
 
 from __future__ import annotations
